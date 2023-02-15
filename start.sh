@@ -1,0 +1,1 @@
+docker run -p 8090:8090 --name chatbot-assistant -d chatbot-assistant:1.0

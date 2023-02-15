@@ -1,0 +1,1 @@
+ docker build -f ./Dockerfile -t chatbot-assistant:1.0 .
