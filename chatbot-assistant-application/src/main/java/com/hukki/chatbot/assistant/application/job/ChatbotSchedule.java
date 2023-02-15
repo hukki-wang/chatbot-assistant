@@ -19,21 +19,21 @@ import java.util.Random;
 
 /**
  * @author YC02289 wanghui
- * @description: 只能回答问题job计划
+ * @description: 自动回答问题job计划
  * @email xx@xx.com
  * @date 2023/2/15 16:57
  */
-@Configuration
 @EnableScheduling
+@Configuration
 public class ChatbotSchedule {
 
     private Logger logger = LoggerFactory.getLogger(ChatbotSchedule.class);
 
     @Value("${chatbot-assistant.zsxq.groupId}")
     private String groupId;
-    @Value("${chatbot-assistant.zsxq.groupId}")
+    @Value("${chatbot-assistant.zsxq.cookie}")
     private String cookie;
-    @Value("${chatbot-assistant.chatgpt.openKey}")
+    @Value("${chatbot-assistant.chatgpt.openAiKey}")
     private String openAiKey;
 
     @Resource
@@ -44,6 +44,7 @@ public class ChatbotSchedule {
 
     @Scheduled(cron = "0/30 * * * * ?")
     public void run(){
+        logger.info("test");
         try{
             if (new Random().nextBoolean()) {
                 logger.info("随机打烊中...");
@@ -60,9 +61,13 @@ public class ChatbotSchedule {
             //1.zsxq检索问题
             UnAnsweredQuestionsAggregates unAnsweredQuestionsAggregates = zsxqApi.queryUnAnsweredQuestionsTopicId(groupId,cookie);
             List<Topics> topics = unAnsweredQuestionsAggregates.getResp_data().getTopics();
-            Topics topic = topics.get(0);
+            if (null == topics || topics.isEmpty()) {
+                logger.info("本次检索未查询到待会答问题");
+                return;
+            }
 
             //2.chatgpt回答问题得到答案
+            Topics topic = topics.get(0);
             String question = topic.getQuestion().getText();
             String answer = openAI.doChatGpt(question,openAiKey);
 

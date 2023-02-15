@@ -18,6 +18,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
@@ -27,6 +28,7 @@ import java.io.IOException;
  * @email xx@xx.com
  * @date 2023/2/15 10:52
  */
+@Service
 public class ZsxqApi implements IZsxqApi {
 
     private Logger logger = LoggerFactory.getLogger(ZsxqApi.class);
