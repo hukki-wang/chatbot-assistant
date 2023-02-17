@@ -44,7 +44,6 @@ public class ChatbotSchedule {
 
     @Scheduled(cron = "0/30 * * * * ?")
     public void run(){
-        logger.info("test");
         try{
             if (new Random().nextBoolean()) {
                 logger.info("随机打烊中...");
