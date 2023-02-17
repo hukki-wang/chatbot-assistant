@@ -7,7 +7,7 @@ package com.hukki.chatbot.assistant.domain.zsxq.model.vo;
  * @date 2023/2/15 10:52
  */
 public class Owner {
-    private int user_id;
+    private String user_id;
 
     private String name;
 
@@ -15,10 +15,10 @@ public class Owner {
 
     private String location;
 
-    public void setUser_id(int user_id){
+    public void setUser_id(String user_id){
         this.user_id = user_id;
     }
-    public int getUser_id(){
+    public String getUser_id(){
         return this.user_id;
     }
     public void setName(String name){

@@ -7,7 +7,7 @@ package com.hukki.chatbot.assistant.domain.zsxq.model.vo;
  * @date 2023/2/15 10:52
  */
 public class Topics {
-    private int topic_id;
+    private String topic_id;
 
     private Group group;
 
@@ -35,10 +35,10 @@ public class Topics {
 
     private UserSpecific user_specific;
 
-    public void setTopic_id(int topic_id){
+    public void setTopic_id(String topic_id){
         this.topic_id = topic_id;
     }
-    public int getTopic_id(){
+    public String getTopic_id(){
         return this.topic_id;
     }
     public void setGroup(Group group){

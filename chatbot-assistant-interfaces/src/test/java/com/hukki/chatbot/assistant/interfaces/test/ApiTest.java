@@ -1,5 +1,8 @@
 package com.hukki.chatbot.assistant.interfaces.test;
 
+import com.alibaba.fastjson.JSON;
+import com.hukki.chatbot.assistant.domain.zsxq.model.aggregates.UnAnsweredQuestionsAggregates;
+import com.hukki.chatbot.assistant.domain.zsxq.model.vo.Group;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * @author YC02289 wanghui
@@ -20,6 +25,33 @@ import java.io.IOException;
  * @date 2023/2/14 10:37
  */
 public class ApiTest {
+
+    @Test
+    public void json(){
+//        Group group = new Group();
+//        group.setGroup_id(1111);
+//        group.setName("test");
+//
+//        String str = JSON.toJSONString(group);
+//        System.out.println(str);
+//
+//        Group group1 = JSON.parseObject(str,Group.class);
+//        System.out.println(group1.toString());
+
+        String jsonStr = "{\"succeeded\":true,\"resp_data\":{\"topics\":[{\"topic_id\":814821252452452,\"group\":{\"group_id\":48884842444448,\"name\":\"\\u7801\\u519c\\u9c7c\\u5858\",\"type\":\"pay\"},\"type\":\"q&a\",\"question\":{\"owner\":{\"user_id\":844122118844242,\"name\":\"\\ue419\\u68a8\\u5b50\\u674e\\u5b50\\u6817\\u5b50\",\"avatar_url\":\"https:\\/\\/images.zsxq.com\\/FhUFUCBTC78AjzQD9I2Wg204fxfG?e=1680278399&token=kIxbL07-8jAj8w1n4s9zv64FuZZNEATmlU_Vm6zD:hIR-LDp6sDUtFXLufulC4TKDT2M=\",\"location\":\"\\u6e56\\u5317\"},\"questionee\":{\"user_id\":414455411558148,\"name\":\"hukki-\\ud83c\\udfb8\",\"avatar_url\":\"https:\\/\\/images.zsxq.com\\/FnMGFZm7p_F-ioUZ1Da9pFWuYAC4?e=1680278399&token=kIxbL07-8jAj8w1n4s9zv64FuZZNEATmlU_Vm6zD:wwDuC31ug6x_2-hKzAaj192-hEk=\",\"location\":\"\\u6e56\\u5317\"},\"text\":\"\\u697c\\u697c\\u4eca\\u665a\\u6709\\u5565\\u5b89\\u6392\\u5417\\uff1f\",\"expired\":false,\"anonymous\":false,\"owner_detail\":{\"questions_count\":2,\"join_time\":\"2023-02-15T13:57:47.224+0800\"},\"owner_location\":\"\\u6e56\\u5317\"},\"answered\":false,\"likes_count\":0,\"rewards_count\":0,\"comments_count\":0,\"reading_count\":1,\"readers_count\":2,\"digested\":false,\"sticky\":false,\"create_time\":\"2023-02-17T16:32:30.761+0800\",\"user_specific\":{\"liked\":false,\"subscribed\":false}}]}}";
+        UnAnsweredQuestionsAggregates unAnsweredQuestionsAggregates = JSON.parseObject(jsonStr, UnAnsweredQuestionsAggregates.class);
+        System.out.println("ApiTest.json unAnsweredQuestionsAggregates");
+    }
+
+    @Test
+    public void base64(){
+        String cronExpression = new String(Base64.getDecoder().decode("MC81MCAqICogKiAqID8="), StandardCharsets.UTF_8);
+        System.out.println(cronExpression);
+        String str = "0/30 * * * * ?";
+        String cronExpressionBase64 = Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8));
+        System.out.println(cronExpressionBase64);
+    }
+
 
     /**
      * 1.创建知识星球

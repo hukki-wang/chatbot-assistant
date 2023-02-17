@@ -5,6 +5,8 @@ import com.hukki.chatbot.assistant.common.util.PropertyUtil;
 import com.hukki.chatbot.assistant.domain.ai.IOpenAI;
 import com.hukki.chatbot.assistant.domain.zsxq.IZsxqApi;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -30,6 +32,7 @@ import java.util.Set;
 @EnableScheduling
 public class TaskRegistrarAutoConfig implements EnvironmentAware, SchedulingConfigurer {
 
+    private static Logger logger = LoggerFactory.getLogger(TaskRegistrarAutoConfig.class);
 
     private Map<String, Map<String, Object>> taskGroupMap = new HashMap<>();
 
@@ -61,12 +64,11 @@ public class TaskRegistrarAutoConfig implements EnvironmentAware, SchedulingConf
             String openAiKey = taskGroup.get("openAiKey").toString();
             String cronExpressionBase64 = taskGroup.get("cronExpression").toString();
             String cronExpression = new String(Base64.getDecoder().decode(cronExpressionBase64), StandardCharsets.UTF_8);
-
+            logger.info("创建任务 groupName：{} groupId：{} cronExpression：{}", groupName, groupId, cronExpression);
             //添加任务
             scheduledTaskRegistrar.addCronTask(new ChatbotTask(groupName,groupId,cookie,openAiKey,zsxqApi,openAI),cronExpression);
 
         }
-
 
     }
 }

@@ -68,8 +68,8 @@ public class ChatbotTask implements Runnable{
             String answer = openAI.doChatGpt(question,openAiKey);
 
             //3.将答案回复给提问者
-            int topicId = topic.getTopic_id();
-            boolean status = zsxqApi.answer(groupId,cookie,String.valueOf(topicId),answer,false);
+            String topicId = topic.getTopic_id();
+            boolean status = zsxqApi.answer(groupId,cookie,topicId,answer,false);
             logger.info("编号：{} 问题：{} 回答：{} 状态：{}", topic.getTopic_id(), topic.getQuestion().getText(), answer, status);
 
         }catch (Exception e){
