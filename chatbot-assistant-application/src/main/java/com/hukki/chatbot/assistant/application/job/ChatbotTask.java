@@ -6,12 +6,7 @@ import com.hukki.chatbot.assistant.domain.zsxq.model.aggregates.UnAnsweredQuesti
 import com.hukki.chatbot.assistant.domain.zsxq.model.vo.Topics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -23,37 +18,39 @@ import java.util.Random;
  * @email xx@xx.com
  * @date 2023/2/15 16:57
  */
-@EnableScheduling
-@Configuration
-public class ChatbotSchedule {
+public class ChatbotTask implements Runnable{
 
-    private Logger logger = LoggerFactory.getLogger(ChatbotSchedule.class);
+    private Logger logger = LoggerFactory.getLogger(ChatbotTask.class);
 
-    @Value("${chatbot-assistant.zsxq.groupId}")
+    private String groupName;
     private String groupId;
-    @Value("${chatbot-assistant.zsxq.cookie}")
     private String cookie;
-    @Value("${chatbot-assistant.chatgpt.openAiKey}")
     private String openAiKey;
-
-    @Resource
     private IZsxqApi zsxqApi;
-    @Resource
     private IOpenAI openAI;
 
+    public ChatbotTask(String groupName, String groupId, String cookie, String openAiKey, IZsxqApi zsxqApi, IOpenAI openAI) {
+        this.groupName = groupName;
+        this.groupId = groupId;
+        this.cookie = cookie;
+        this.openAiKey = openAiKey;
+        this.zsxqApi = zsxqApi;
+        this.openAI = openAI;
+    }
 
-    @Scheduled(cron = "0/30 * * * * ?")
+
+    @Override
     public void run(){
         try{
             if (new Random().nextBoolean()) {
-                logger.info("随机打烊中...");
+                logger.info("{} 随机打烊中...",groupName);
                 return;
             }
 
             GregorianCalendar calendar = new GregorianCalendar();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             if (hour > 22 || hour < 7) {
-                logger.info("打烊时间不工作，AI 下班了！");
+                logger.info("{} 打烊时间不工作，AI 下班了！",groupName);
                 return;
             }
 
